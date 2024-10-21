@@ -1,0 +1,20 @@
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+for ((i=1; i<=20; i++)); do
+    echo "Running simulation $i"
+    rm ./system/controlDict
+    mv ./system/controlDict1 ./system/controlDict
+    mv ./system/controlDict2 ./system/controlDict1
+    cp ./system/controlDict ./system/controlDict2
+    solver="mpirun --oversubscribe -np 128 waveDyMFoam -parallel"
+    runApplication $solver
+    mv log.mpirun log.mpirun$i 
+    mv log.waveDyMFoam log.waveDyMFoam$i
+done
+
+echo "20 loop completed."
+
+
+
+
+
